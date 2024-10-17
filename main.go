@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 	"os"
-    "github.com/myselfBZ/plang/lexer"
+    "github.com/myselfBZ/plang/parser"
+	"github.com/myselfBZ/plang/lexer"
 )
 
 
@@ -24,18 +25,12 @@ func open(path string) string {
 func main() {
     code := open("test.pl") 
     tokens := lexer.Tokenize(code)
-    analsis := map[string]int{}
-    for _, t := range tokens{
-        kind := lexer.TokenKindString(t.T)     
-        if _, ok := analsis[kind]; ok{
-            analsis[kind]++
-        } else {
-            analsis[kind] = 1
+    for i := 0; i < len(tokens); i+=4{
+        node, err := parser.VarDeclare(tokens[i:i+4]) 
+        if err != nil{
+            log.Fatal(err)
         }
-    }
-    
-    for v, k := range analsis{
-        log.Printf(" Kind \"%s\" : %d", v, k)
+        log.Println(node)
     }
 }
 

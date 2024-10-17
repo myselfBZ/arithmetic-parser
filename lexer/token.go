@@ -3,7 +3,6 @@ package lexer
 import (
 	"errors"
 	"log"
-	"strconv"
 	"strings"
 )
 
@@ -24,6 +23,7 @@ const(
     // SPEACIAL SINGS
    OPEN_PAREN 
    CLOSE_PAREN 
+   IDENTIFIER
 )
 
 type Token struct{
@@ -47,41 +47,19 @@ func TokenKindString(token TokenType) string{
         return "+"
     case MINUS:
         return "-"
+    case IDENTIFIER:
+        return "identifier"
     default:
         return "" 
     }
 }
 
-func isNumber(s string) bool {
-    _, err :=  strconv.Atoi(s)
-    return err == nil
-}
 
-func IsToken(token string) (bool, TokenType) {
-    if isNumber(token) {
-        return true, Tokens["number"]
-    }
-    if v, ok := Tokens[token]; ok{
-        return true, v
-    }
-    return false, 0 
-}
 
 func (t Token) Debug(){
     log.Printf("Token kind: %s. Value: %s", TokenKindString(t.T), t.Value) 
 }
 
-/* i probably have to use regex
-func specialSymbol(s string) (string, bool) {
-    for _, s := range s{
-        strS := string(s) 
-        if strS == "=" || strS == "(" || strS == ")" || strS == "+" || strS == "-"{
-            return strS, true
-        }
-    }
-    return strS, false 
-}
-*/
 
 func Tokenize(code string) []Token {
     trimmed := trim(code) 
