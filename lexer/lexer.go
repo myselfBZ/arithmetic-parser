@@ -14,6 +14,8 @@ const(
     PLUS 
     MINUS
     INVALID
+    MULTIPLY
+    DIVIDE
 )
 
 type Token struct{
@@ -55,6 +57,10 @@ func(l *Lexer) NextToken() *Token {
         return &Token{"+", PLUS}
     case "-":
         return &Token{"-", MINUS}
+    case "*":
+        return &Token{"*", MULTIPLY}
+    case "/":
+        return &Token{"/", DIVIDE}
     default:
         return &Token{string(current), INVALID}
 
@@ -65,11 +71,7 @@ func (l *Lexer) Tokenize() []*Token {
     var tokens []*Token
     for{
         token := l.NextToken()
-        if token.Type == INVALID{
-            fmt.Println("Invalid Token: ", token.Value)
-            break
-        }
-        if token.Value == "" {
+        if token.Type == INVALID || token.Type == -1{
             break
         }
         tokens = append(tokens, token)

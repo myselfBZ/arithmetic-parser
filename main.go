@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strings"
 
 	"github.com/myselfBZ/plang/lexer"
-	// "github.com/myselfBZ/plang/lexer"
+	"github.com/myselfBZ/plang/parser"
 )
 
 func open(path string) string {
@@ -26,5 +27,12 @@ func main() {
     src := open("test.pl")
     trimmedSrc := strings.TrimSpace(src)
     l := lexer.NewLexer(trimmedSrc)
-    l.Tokenize()
+    tokens := l.Tokenize()
+    p := parser.NewParser(tokens)
+    result, err := p.Parse()
+    if err != nil{
+        fmt.Printf("error: %v\n", err)
+        return
+    }
+    fmt.Printf("Result: %v\n", result)
 }
