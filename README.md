@@ -1,3 +1,4 @@
 > [!NOTE]
 >Being rewritten
->.pl extension is doesn't mean perl
+
+# .pl extensio doesn't stand for Perl
