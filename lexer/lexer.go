@@ -61,10 +61,8 @@ func(l *Lexer) NextToken() *Token {
     }
 }
 
-// example 3 + 4
-
-func (l *Lexer) Tokenize() () {
-    // var tokens []Token
+func (l *Lexer) Tokenize() []*Token {
+    var tokens []*Token
     for{
         token := l.NextToken()
         if token.Type == INVALID{
@@ -74,6 +72,8 @@ func (l *Lexer) Tokenize() () {
         if token.Value == "" {
             break
         }
+        tokens = append(tokens, token)
         fmt.Printf("Token Type: %v Token Value: %v\n", token.Type, token.Value)
     }
+    return tokens
 }
